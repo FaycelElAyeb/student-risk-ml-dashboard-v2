@@ -70,7 +70,7 @@ h3,h4,p { margin-top: 0; }
 
 .upload-card { margin-top: 18px; padding: 24px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: center; }
 .upload-box {
-  min-height: 180px;
+  min-height: 120px;
   border: 2px dashed rgba(125,116,255,0.4);
   border-radius: 20px;
   display: flex;
