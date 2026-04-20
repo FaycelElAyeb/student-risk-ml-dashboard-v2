@@ -68,7 +68,7 @@ h3,h4,p { margin-top: 0; }
 .ghost-btn, .secondary-btn { background: rgba(125,116,255,0.12); color: white; border: 1px solid var(--border); }
 .text-btn { background: transparent; color: #a6bbff; padding: 0; }
 
-.upload-card { margin-top: 18px; padding: 24px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: center; }
+.upload-card { margin-top: 18px; padding: 16px; display: grid; grid-template-columns: 1.5fr 0.8fr; gap: 18px; align-items: center; }
 .upload-box {
   min-height: 120px;
   border: 2px dashed rgba(125,116,255,0.4);
