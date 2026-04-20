@@ -9,18 +9,18 @@ export default function UploadPanel({ onUpload, loading, message, error }) {
   return (
     <section className="upload-card">
       <div>
-        <p className="eyebrow">Excel Upload</p>
+       {/*} <p className="eyebrow">Excel Upload</p>*/}
         <h2>Import student performance data</h2>
-        <p className="subtext">
+        {/*<p className="subtext">
           Required columns: student_id, full_name, email, phone_number, course_name, logins, assignments, quizzes, forum, attendance, study_hours, activities_completed
-        </p>
+        </p>*/}
       </div>
       <label className="upload-box">
         <input type="file" accept=".xlsx,.xls" onChange={handleChange} disabled={loading} hidden />
         <div className="upload-inner">
           <FileSpreadsheet size={34} />
           <span>{loading ? 'Processing...' : 'Choose Excel file'}</span>
-          <small>Drag-and-drop can be added later; this version focuses on correct upload + analytics.</small>
+          {/*<small>Drag-and-drop can be added later; this version focuses on correct upload + analytics.</small>*/}  
         </div>
       </label>
       {message && <p className="success-text"><UploadCloud size={16} /> {message}</p>}

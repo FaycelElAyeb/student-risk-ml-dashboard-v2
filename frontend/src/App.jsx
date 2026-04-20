@@ -96,7 +96,7 @@ export default function App() {
               <p className="eyebrow">AI Student Success Monitoring</p>
               <h1>Student Risk Prediction Dashboard</h1>
               <p className="subtext">
-                Upload Excel data, detect at-risk students, visualize weaknesses, and trigger intervention emails.
+                Analyse data, Pridict at-risk students, Visualize weaknesses, and Trigger intervention emails.
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function App() {
       <UploadPanel onUpload={handleUpload} loading={loading} message={message} error={error} />
 
       <section className="stats-grid">
-        <StatCard icon={<Users />} label="Total Students" value={data.summary.totalStudents} hint="Students loaded from Excel" />
+        <StatCard icon={<Users />} label="Total Students" value={data.summary.totalStudents} hint="" />
         <StatCard icon={<GraduationCap />} label="Average Score" value={`${data.summary.averageScore}%`} hint="Normalized across predictors" />
         <StatCard icon={<ShieldAlert />} label="At-Risk Rate" value={`${data.summary.atRiskRate}%`} hint="High + Medium risk ratio" />
         <StatCard icon={<BellRing />} label="High Risk" value={data.summary.highRiskCount} hint="Immediate intervention priority" />
