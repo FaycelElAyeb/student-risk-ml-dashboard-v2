@@ -78,6 +78,8 @@ h3,h4,p { margin-top: 0; }
 }
 
 .upload-box {
+  max-width: 280px;
+  margin: 0 auto; 
   min-height: 90px;
   padding: 10px;
   border: 2px dashed rgba(125,116,255,0.4);
