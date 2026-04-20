@@ -70,11 +70,11 @@ export default function App() {
     setSending(true);
     setError('');
     try {
-      await axios.post(`${API_URL}/alerts/send-email`, {
+      const response = await axios.post(`${API_URL}/alerts/send-email`, {
         students: highRiskStudents
       });
-     // setMessage('Email request processed. Check backend configuration for SMTP.');
-      if (response.success) {
+
+      if (response.data.success) {
         setMessage("✅ Emails sent successfully");
       } else {
         setMessage("❌ Failed to send emails");
