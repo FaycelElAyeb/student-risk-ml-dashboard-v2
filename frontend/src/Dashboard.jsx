@@ -32,14 +32,12 @@ const emptyState = {
 
 export default function Dashboard({ onLogout }) {
 
-  // 📊 STATES
   const [data, setData] = useState(emptyState);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('Upload an Excel file to start analysis.');
   const [error, setError] = useState('');
   const [sending, setSending] = useState(false);
 
-  // ✅ SAFE COMPUTATION
   const highRiskStudents = useMemo(() => {
     return (data.students || []).filter(
       (student) => student.risk_label === 'High'
@@ -102,11 +100,7 @@ export default function Dashboard({ onLogout }) {
         students: highRiskStudents
       });
 
-      if (response.data.success) {
-        setMessage('✅ Emails sent successfully');
-      } else {
-        setMessage('❌ Failed to send emails');
-      }
+      setMessage(response.data.success ? '✅ Emails sent successfully' : '❌ Failed to send emails');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send emails.');
     } finally {
@@ -118,11 +112,6 @@ export default function Dashboard({ onLogout }) {
 
   return (
     <div className="app-shell">
-
-      {/* 🔴 LOGOUT BUTTON */}
-      <button className="logout-btn" onClick={onLogout}>
-        Logout
-      </button>
 
       <header className="hero-card">
         <div className="hero-left">
@@ -138,24 +127,34 @@ export default function Dashboard({ onLogout }) {
           </div>
         </div>
 
+        {/* 🔥 UPDATED BUTTON LAYOUT */}
         <div className="hero-actions">
-          <button
-            className="ghost-btn"
-            onClick={handleGeneratePreviews}
-            disabled={!highRiskStudents.length || sending}
-          >
-            <BellRing size={18} />
-            Generate Alerts
+
+          <div className="hero-buttons">
+            <button
+              className="ghost-btn"
+              onClick={handleGeneratePreviews}
+              disabled={!highRiskStudents.length || sending}
+            >
+              <BellRing size={18} />
+              Generate Alerts
+            </button>
+
+            <button
+              className="primary-btn"
+              onClick={handleSendEmails}
+              disabled={!highRiskStudents.length || sending}
+            >
+              <Mail size={18} />
+              Send Emails
+            </button>
+          </div>
+
+          {/* 🔴 LOGOUT CENTERED */}
+          <button className="primary-btn logout-center" onClick={onLogout}>
+            Logout
           </button>
 
-          <button
-            className="primary-btn"
-            onClick={handleSendEmails}
-            disabled={!highRiskStudents.length || sending}
-          >
-            <Mail size={18} />
-            Send Emails
-          </button>
         </div>
       </header>
 

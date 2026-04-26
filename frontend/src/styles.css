@@ -238,3 +238,20 @@ th { color: #9aa7d8; font-weight: 600; font-size: 0.95rem; }
   right: 40px; /* increase space */
   z-index: 10;
 }
+
+.hero-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.logout-center {
+  width: 180px;
+  text-align: center;
+}
