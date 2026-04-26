@@ -30,7 +30,7 @@ const emptyState = {
   previews: []
 };
 
-export default function Dashboard() {
+export default function Dashboard({ onLogout }) {
 
   // 📊 STATES
   const [data, setData] = useState(emptyState);
@@ -118,6 +118,11 @@ export default function Dashboard() {
 
   return (
     <div className="app-shell">
+
+      {/* 🔴 LOGOUT BUTTON */}
+      <button className="logout-btn" onClick={onLogout}>
+        Logout
+      </button>
 
       <header className="hero-card">
         <div className="hero-left">

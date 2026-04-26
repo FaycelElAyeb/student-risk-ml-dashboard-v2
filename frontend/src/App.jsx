@@ -148,14 +148,18 @@ import Login from './Login';
 import Dashboard from './Dashboard';
 
 export default function App() {
-
   const [isAuth, setIsAuth] = useState(
     localStorage.getItem('auth') === 'true'
   );
+
+  const handleLogout = () => {
+    localStorage.removeItem('auth');
+    setIsAuth(false);
+  };
 
   if (!isAuth) {
     return <Login onSuccess={() => setIsAuth(true)} />;
   }
 
-  return <Dashboard />;
+  return <Dashboard onLogout={handleLogout} />;
 }
