@@ -178,26 +178,29 @@ const emptyState = {
 
 export default function App() {
 
-  // 🔐 AUTH STATE
+  // 🔐 AUTH
   const [isAuth, setIsAuth] = useState(
     localStorage.getItem('auth') === 'true'
   );
 
-  // 📊 ALL HOOKS MUST BE FIRST (VERY IMPORTANT)
+  // 📊 STATES
   const [data, setData] = useState(emptyState);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('Upload an Excel file to start analysis.');
   const [error, setError] = useState('');
   const [sending, setSending] = useState(false);
 
-  const highRiskStudents = useMemo(() => {
-    return data.students.filter((student) => student.risk_label === 'High');
-  }, [data.students]);
-
-  // 🔐 LOGIN GUARD (AFTER HOOKS)
+  // 🔐 LOGIN FIRST (CRITICAL FIX)
   if (!isAuth) {
     return <Login onSuccess={() => setIsAuth(true)} />;
   }
+
+  // ✅ SAFE NOW (after login)
+  const highRiskStudents = useMemo(() => {
+    return (data.students || []).filter(
+      (student) => student.risk_label === 'High'
+    );
+  }, [data.students]);
 
   // ================= HANDLERS =================
 
@@ -272,7 +275,7 @@ export default function App() {
   return (
     <div className="app-shell">
 
-      {/* 🔴 LOGOUT */}
+      {/* LOGOUT */}
       <button
         className="logout-btn"
         onClick={() => {
