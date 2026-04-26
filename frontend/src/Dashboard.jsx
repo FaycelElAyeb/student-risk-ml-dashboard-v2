@@ -1,6 +1,6 @@
-{/*import { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import axios from 'axios';
-import { BellRing, GraduationCap, Mail, RefreshCcw, ShieldAlert, UploadCloud, Users } from 'lucide-react';
+import { BellRing, GraduationCap, Mail, RefreshCcw, ShieldAlert, Users } from 'lucide-react';
 import UploadPanel from './components/UploadPanel';
 import StatCard from './components/StatCard';
 import StudentsTable from './components/StudentsTable';
@@ -12,34 +12,55 @@ import logo from './assets/logo.png';
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 const emptyState = {
-  summary: { totalStudents: 0, averageScore: 0, atRiskRate: 0, highRiskCount: 0, averageAttendance: 0, averageAssignments: 0 },
+  summary: {
+    totalStudents: 0,
+    averageScore: 0,
+    atRiskRate: 0,
+    highRiskCount: 0,
+    averageAttendance: 0,
+    averageAssignments: 0
+  },
   students: [],
-  chartData: { riskDistribution: [], weaknessFrequency: [], courseBreakdown: [], scatterData: [] },
+  chartData: {
+    riskDistribution: [],
+    weaknessFrequency: [],
+    courseBreakdown: [],
+    scatterData: []
+  },
   previews: []
 };
 
-export default function App() {
+export default function Dashboard() {
+
+  // 📊 STATES
   const [data, setData] = useState(emptyState);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('Upload an Excel file to start analysis.');
   const [error, setError] = useState('');
   const [sending, setSending] = useState(false);
 
-  const highRiskStudents = useMemo(
-    () => data.students.filter((student) => student.risk_label === 'High'),
-    [data.students]
-  );
+  // ✅ SAFE COMPUTATION
+  const highRiskStudents = useMemo(() => {
+    return (data.students || []).filter(
+      (student) => student.risk_label === 'High'
+    );
+  }, [data.students]);
+
+  // ================= HANDLERS =================
 
   const handleUpload = async (file) => {
     setLoading(true);
     setError('');
     setMessage('Uploading file and running analytics...');
+
     try {
       const formData = new FormData();
       formData.append('file', file);
+
       const response = await axios.post(`${API_URL}/upload`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
+
       setData({ ...response.data, previews: [] });
       setMessage('Analysis completed successfully.');
     } catch (err) {
@@ -53,11 +74,17 @@ export default function App() {
   const handleGeneratePreviews = async () => {
     setSending(true);
     setError('');
+
     try {
       const response = await axios.post(`${API_URL}/alerts/preview`, {
         students: highRiskStudents
       });
-      setData((prev) => ({ ...prev, previews: response.data.previews }));
+
+      setData((prev) => ({
+        ...prev,
+        previews: response.data.previews
+      }));
+
       setMessage('Notification previews generated.');
     } catch (err) {
       setError(err.response?.data?.message || 'Could not generate previews.');
@@ -69,15 +96,16 @@ export default function App() {
   const handleSendEmails = async () => {
     setSending(true);
     setError('');
+
     try {
       const response = await axios.post(`${API_URL}/alerts/send-email`, {
         students: highRiskStudents
       });
 
       if (response.data.success) {
-        setMessage("✅ Emails sent successfully");
+        setMessage('✅ Emails sent successfully');
       } else {
-        setMessage("❌ Failed to send emails");
+        setMessage('❌ Failed to send emails');
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to send emails.');
@@ -86,8 +114,11 @@ export default function App() {
     }
   };
 
+  // ================= UI =================
+
   return (
     <div className="app-shell">
+
       <header className="hero-card">
         <div className="hero-left">
           <div className="hero-brand">
@@ -96,34 +127,53 @@ export default function App() {
               <p className="eyebrow">AI Student Success Monitoring</p>
               <h1>Student Risk Prediction Dashboard</h1>
               <p className="subtext">
-                Analyse data, Pridict at-risk students, Visualize weaknesses, and Trigger intervention emails.
+                Analyse data, Predict at-risk students, Visualize weaknesses, and Trigger intervention emails.
               </p>
             </div>
           </div>
         </div>
+
         <div className="hero-actions">
-          <button className="ghost-btn" onClick={handleGeneratePreviews} disabled={!highRiskStudents.length || sending}>
+          <button
+            className="ghost-btn"
+            onClick={handleGeneratePreviews}
+            disabled={!highRiskStudents.length || sending}
+          >
             <BellRing size={18} />
             Generate Alerts
           </button>
-          <button className="primary-btn" onClick={handleSendEmails} disabled={!highRiskStudents.length || sending}>
+
+          <button
+            className="primary-btn"
+            onClick={handleSendEmails}
+            disabled={!highRiskStudents.length || sending}
+          >
             <Mail size={18} />
             Send Emails
           </button>
         </div>
       </header>
 
-      <UploadPanel onUpload={handleUpload} loading={loading} message={message} error={error} />
+      <UploadPanel
+        onUpload={handleUpload}
+        loading={loading}
+        message={message}
+        error={error}
+      />
 
       <section className="stats-grid">
-        <StatCard icon={<Users />} label="Total Students" value={data.summary.totalStudents} hint="" />
-        <StatCard icon={<GraduationCap />} label="Average Score" value={`${data.summary.averageScore}%`} hint="Normalized across predictors" />
-        <StatCard icon={<ShieldAlert />} label="At-Risk Rate" value={`${data.summary.atRiskRate}%`} hint="High + Medium risk ratio" />
-        <StatCard icon={<BellRing />} label="High Risk" value={data.summary.highRiskCount} hint="Immediate intervention priority" />
+        <StatCard icon={<Users />} label="Total Students" value={data.summary.totalStudents} />
+        <StatCard icon={<GraduationCap />} label="Average Score" value={`${data.summary.averageScore}%`} />
+        <StatCard icon={<ShieldAlert />} label="At-Risk Rate" value={`${data.summary.atRiskRate}%`} />
+        <StatCard icon={<BellRing />} label="High Risk" value={data.summary.highRiskCount} />
       </section>
 
       <section className="content-grid">
-        <HighRiskPanel students={highRiskStudents} onRefresh={handleGeneratePreviews} loading={sending} />
+        <HighRiskPanel
+          students={highRiskStudents}
+          onRefresh={handleGeneratePreviews}
+          loading={sending}
+        />
         <StudentsTable students={data.students} />
       </section>
 
@@ -132,30 +182,19 @@ export default function App() {
       <section className="action-panel">
         <div className="panel-header">
           <h2>Intervention Workflow</h2>
-          <button className="secondary-btn" onClick={handleGeneratePreviews} disabled={!highRiskStudents.length || sending}>
+          <button
+            className="secondary-btn"
+            onClick={handleGeneratePreviews}
+            disabled={!highRiskStudents.length || sending}
+          >
             <RefreshCcw size={16} />
             Refresh Previews
           </button>
         </div>
+
         <NotificationPreview previews={data.previews} />
       </section>
+
     </div>
   );
-}
-*/}
-import { useState } from 'react';
-import Login from './Login';
-import Dashboard from './Dashboard';
-
-export default function App() {
-
-  const [isAuth, setIsAuth] = useState(
-    localStorage.getItem('auth') === 'true'
-  );
-
-  if (!isAuth) {
-    return <Login onSuccess={() => setIsAuth(true)} />;
-  }
-
-  return <Dashboard />;
 }
