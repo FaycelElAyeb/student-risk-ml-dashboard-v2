@@ -233,13 +233,14 @@ th { color: #9aa7d8; font-weight: 600; font-size: 0.95rem; }
 }
 
 .logout-btn {
-  position: absolute;
+  position: fixed;
   top: 20px;
   right: 20px;
   background: #ef4444;
   color: white;
   border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
   cursor: pointer;
+  z-index: 9999;
 }
