@@ -68,22 +68,9 @@ h3,h4,p { margin-top: 0; }
 .ghost-btn, .secondary-btn { background: rgba(125,116,255,0.12); color: white; border: 1px solid var(--border); }
 .text-btn { background: transparent; color: #a6bbff; padding: 0; }
 
-.upload-card {
-  margin-top: 18px;
-  padding: 10px;
-  display: grid;
-  grid-template-columns: 1fr 260px; 
-  {/*grid-template-columns: 1fr 0.6fr;*/}
-  gap: 10px;
-  align-items: center;
-}
-
+.upload-card { margin-top: 18px; padding: 24px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 18px; align-items: center; }
 .upload-box {
-  width: 250px;      
-  max-width: 250px;
-  margin: 0 auto; 
-  min-height: 90px;
-  padding: 10px;
+  min-height: 180px;
   border: 2px dashed rgba(125,116,255,0.4);
   border-radius: 20px;
   display: flex;
@@ -179,4 +166,80 @@ th { color: #9aa7d8; font-weight: 600; font-size: 0.95rem; }
   .hero-actions { flex-wrap: wrap; justify-content: flex-start; }
   .stats-grid, .charts-grid, .preview-grid { grid-template-columns: 1fr; }
   .app-shell { width: min(100% - 20px, 1440px); }
+}
+
+
+
+
+
+
+
+.logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #0f172a, #1e293b);
+}
+
+.login-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  padding: 40px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  color: white;
+}
+
+.login-header {
+  margin-bottom: 20px;
+}
+
+.login-header h1 {
+  font-size: 22px;
+  margin: 10px 0 5px;
+}
+
+.login-header p {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  margin-bottom: 15px;
+  outline: none;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logout-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
 }

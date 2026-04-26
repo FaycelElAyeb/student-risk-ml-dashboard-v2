@@ -6,3 +6,4 @@ uploads/*
 __pycache__/
 ml-service/.venv/
 backend/uploads/*
+*.pem
