@@ -152,15 +152,27 @@ import StudentsTable from './components/StudentsTable';
 import ChartsPanel from './components/ChartsPanel';
 import HighRiskPanel from './components/HighRiskPanel';
 import NotificationPreview from './components/NotificationPreview';
-import Login from './Login'; // ✅ ADD LOGIN
+import Login from './Login';
 import logo from './assets/logo.png';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
 
 const emptyState = {
-  summary: { totalStudents: 0, averageScore: 0, atRiskRate: 0, highRiskCount: 0, averageAttendance: 0, averageAssignments: 0 },
+  summary: {
+    totalStudents: 0,
+    averageScore: 0,
+    atRiskRate: 0,
+    highRiskCount: 0,
+    averageAttendance: 0,
+    averageAssignments: 0
+  },
   students: [],
-  chartData: { riskDistribution: [], weaknessFrequency: [], courseBreakdown: [], scatterData: [] },
+  chartData: {
+    riskDistribution: [],
+    weaknessFrequency: [],
+    courseBreakdown: [],
+    scatterData: []
+  },
   previews: []
 };
 
@@ -171,12 +183,7 @@ export default function App() {
     localStorage.getItem('auth') === 'true'
   );
 
-  // 🔐 PROTECT APP
-  if (!isAuth) {
-    return <Login onSuccess={() => setIsAuth(true)} />;
-  }
-
-  // 📊 EXISTING STATES
+  // 📊 ALL STATES MUST BE BEFORE ANY RETURN
   const [data, setData] = useState(emptyState);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('Upload an Excel file to start analysis.');
@@ -187,6 +194,11 @@ export default function App() {
     () => data.students.filter((student) => student.risk_label === 'High'),
     [data.students]
   );
+
+  // 🔐 PROTECT APP (AFTER ALL HOOKS)
+  if (!isAuth) {
+    return <Login onSuccess={() => setIsAuth(true)} />;
+  }
 
   const handleUpload = async (file) => {
     setLoading(true);
@@ -247,7 +259,7 @@ export default function App() {
   return (
     <div className="app-shell">
 
-      {/* 🔴 LOGOUT BUTTON */}
+      {/* 🔴 LOGOUT */}
       <button
         className="logout-btn"
         onClick={() => {
