@@ -1,4 +1,4 @@
-# Student Risk Prediction Dashboard (Fullstack + ML)
+# Student Risk Prediction Dashboard (Fullstack + ML)***
 
 A complete fullstack project for uploading an Excel file, analyzing student performance, predicting at-risk students using a Python FastAPI ML service, and sending alerts with targeted advice.
 
